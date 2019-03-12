@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReyfiBurgerWeb", "ReyfiBurgerWeb\ReyfiBurgerWeb.csproj", "{298FE5B4-1839-405B-97ED-F8A0E3E08C0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReyfiBurgerWeb.Tests", "ReyfiBurgerWeb.Tests\ReyfiBurgerWeb.Tests.csproj", "{79CA837D-2A4E-423A-8934-ACEF39DB3102}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{298FE5B4-1839-405B-97ED-F8A0E3E08C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{298FE5B4-1839-405B-97ED-F8A0E3E08C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{298FE5B4-1839-405B-97ED-F8A0E3E08C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{298FE5B4-1839-405B-97ED-F8A0E3E08C0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79CA837D-2A4E-423A-8934-ACEF39DB3102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79CA837D-2A4E-423A-8934-ACEF39DB3102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79CA837D-2A4E-423A-8934-ACEF39DB3102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79CA837D-2A4E-423A-8934-ACEF39DB3102}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73E9B3D4-5092-4A9B-8F4B-E51E6C59AB8C}
+	EndGlobalSection
+EndGlobal
