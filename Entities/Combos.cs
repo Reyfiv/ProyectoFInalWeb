@@ -12,6 +12,7 @@ namespace Entities
         public string NombreCombo { get; set; }
         public virtual List<ProductosDetalle> Producto { get; set; }
         public decimal PrecioTotalCombo { get; set; }
+        public DateTime Fecha { get; set; }
 
         public Combos()
         {
@@ -19,6 +20,7 @@ namespace Entities
             NombreCombo = string.Empty;
             Producto = new List<ProductosDetalle>();
             PrecioTotalCombo = 0;
+            Fecha = DateTime.Now;
         }
         
     }

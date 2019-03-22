@@ -13,6 +13,7 @@ namespace Entities
         public string Contraseña { get; set; }
         public string ConfirmarContraseña { get; set; }
         public string TipoUsuario { get; set; }
+        public DateTime Fecha { get; set; }
 
         public Usuarios()
         {
@@ -22,6 +23,7 @@ namespace Entities
             Contraseña = string.Empty;
             ConfirmarContraseña = string.Empty;
             TipoUsuario = string.Empty;
+            Fecha = DateTime.Now;
         }
 
         public Usuarios(string nombreUsuario, string contraseña)

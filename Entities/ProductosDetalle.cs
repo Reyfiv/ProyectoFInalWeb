@@ -14,11 +14,12 @@ namespace Entities
         public string TipoProducto { get; set; }
         public decimal Precio { get; set; }
         public string Descripcion { get; set; }
+        public DateTime Fecha { get; set; }
 
         [ForeignKey("ProductoId")]
         public virtual Productos Producto { get; set; }
 
-        public ProductosDetalle(int productosDetalleId, int productoId, string nombreProducto, string tipoProducto, decimal precio, string descripcion)
+        public ProductosDetalle(int productosDetalleId, int productoId, string nombreProducto, string tipoProducto, decimal precio, string descripcion, DateTime fecha)
         {
             ProductosDetalleId = productosDetalleId;
             ProductoId = productoId;
@@ -26,6 +27,7 @@ namespace Entities
             this.TipoProducto = tipoProducto;
             this.Precio = precio;
             this.Descripcion = descripcion;
+            this.Fecha = fecha;
         }
 
         public ProductosDetalle()
@@ -36,6 +38,7 @@ namespace Entities
             TipoProducto = string.Empty;
             Precio = 0;
             Descripcion = string.Empty;
+            Fecha = DateTime.Now;
         }
     }
 }
