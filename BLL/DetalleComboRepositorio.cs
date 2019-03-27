@@ -36,30 +36,34 @@ namespace BLL
             bool paso = false;
             try
             {
-                //buscar las entidades que no estan para removerlas
-                var Anterior = _contexto.Combos.Find(combos.ComboId);
-                foreach (var item in Anterior.Producto)
+                //Buscamos la Detalle(Productos) anterior convertiendola en una lista
+                //OJO:AsNoTracking() sirve para que el conetexto no le de seguimiento a la entidad y hacer porder manipular su estado.
+                var DetalleAnterior = _contexto.ProductosDetalle.Where(x => x.ComboId == combos.ComboId).AsNoTracking().ToList();
+
+                //Marcamos como eleminado las celdas que sobran en el Detalle(Cuotas) Anterior de la base de datos
+                foreach (var item in DetalleAnterior)
                 {
-                    if (!combos.Producto.Exists(d => d.ProductosDetalleId == item.ProductosDetalleId))
+                    if (!combos.Producto.Exists(x => x.ProductosDetalleId.Equals(item.ProductosDetalleId)))
                     {
-                        item.Descripcion = null;
                         _contexto.Entry(item).State = EntityState.Deleted;
                     }
                 }
-
-                //recorrer el detalle
+                //Modificamos o agregamos las celdas que necesitamos con los nuevos datos 
+                //OJO: No modificar el item directamente despues de cambiarle el estado
+                //porque al dar la segunda vuelta dara un error de que la entidad a sido modicada.
                 foreach (var item in combos.Producto)
                 {
-                    //Muy importante indicar que pasara con la entidad del detalle
-                    var estado = item.ProductosDetalleId > 0 ? EntityState.Modified : EntityState.Added;
-                    _contexto.Entry(item).State = estado;
+                     _contexto.Entry(item).State = item.ProductosDetalleId == 0 ? EntityState.Added : EntityState.Modified;
                 }
 
-                //Idicar que se esta modificando el encabezado
+                //Modificamos la entediad completa
                 _contexto.Entry(combos).State = EntityState.Modified;
-
+                //Guardamos los Cambios 
                 if (_contexto.SaveChanges() > 0)
+                {
                     paso = true;
+                }
+                _contexto.Dispose();
             }
             catch (Exception)
             {

@@ -10,35 +10,39 @@ namespace Entities
         [Key]
         public int ProductosDetalleId { get; set; }
         public int ProductoId { get; set; }
+        public int ComboId { get; set; }
         public string NombreProducto { get; set; }
         public string TipoProducto { get; set; }
         public decimal Precio { get; set; }
         public string Descripcion { get; set; }
-        public DateTime Fecha { get; set; }
 
         [ForeignKey("ProductoId")]
         public virtual Productos Producto { get; set; }
 
-        public ProductosDetalle(int productosDetalleId, int productoId, string nombreProducto, string tipoProducto, decimal precio, string descripcion, DateTime fecha)
+        [ForeignKey("ComboId")]
+        public virtual Combos Combos { get; set; }
+
+        public ProductosDetalle(int productosDetalleId, int productoId, int comboId, string nombreProducto, string tipoProducto, decimal precio, string descripcion)
         {
             ProductosDetalleId = productosDetalleId;
             ProductoId = productoId;
+            ComboId = comboId;
             this.NombreProducto = nombreProducto;
             this.TipoProducto = tipoProducto;
             this.Precio = precio;
             this.Descripcion = descripcion;
-            this.Fecha = fecha;
         }
 
         public ProductosDetalle()
         {
             ProductosDetalleId = 0;
             ProductoId = 0;
+            ComboId = 0;
             NombreProducto = string.Empty;
             TipoProducto = string.Empty;
             Precio = 0;
             Descripcion = string.Empty;
-            Fecha = DateTime.Now;
         }
+
     }
 }
