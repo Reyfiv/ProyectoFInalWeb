@@ -14,7 +14,7 @@ namespace Entities
         public decimal Devuelta { get; set; }
         public DateTime Fecha { get; set; }
 
-        public virtual List<ProductosDetalle> DetalleProducto { get; set; }
+        public virtual List<VentaProductosDetalle> DetalleProducto { get; set; }
         public virtual List<CombosDetalle> DetalleCombo { get; set; }
 
         public Ventas()
@@ -25,7 +25,7 @@ namespace Entities
             Devuelta = 0;
             Fecha = DateTime.Now;
 
-            DetalleProducto = new List<ProductosDetalle>();
+            DetalleProducto = new List<VentaProductosDetalle>();
             DetalleCombo = new List<CombosDetalle>();
         }
     }

@@ -4,6 +4,7 @@ using ReyfiBurgerWeb.Utiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -63,6 +64,23 @@ namespace ReyfiBurgerWeb.Registros
             DescripcionDropDownList.Text = productos.Descripcion;
         }
 
+        protected bool ValidarNombres(Productos productos)
+        {
+            bool validar = false;
+            Expression<Func<Productos, bool>> filtro = p => true;
+            RepositorioBase<Productos> repositorio = new RepositorioBase<Productos>();
+            var lista = repositorio.GetList(c => true);
+            foreach (var item in lista)
+            {
+                if (productos.NombreProducto == item.NombreProducto)
+                {
+                    Utils.ShowToastr(this.Page, "Producto ya Existe", "Error", "error");
+                    return validar = true;
+                }
+            }
+            return validar;
+        }
+
         protected void NuevoButton_Click(object sender, EventArgs e)
         {
             Limpiar();
@@ -79,20 +97,26 @@ namespace ReyfiBurgerWeb.Registros
                 Utils.ShowToastr(this.Page, "Revisar todos los campo", "Error", "error");
                 return;
             }
-
             productos = LlenaClase(productos);
-            if (productos.ProductoId == 0)
+            if (ValidarNombres(productos))
             {
-
-                paso = repositorio.Guardar(productos);
-                Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
-                Limpiar();
+                return;
             }
             else
             {
-                paso = repositorio.Modificar(productos);
-                Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
-                Limpiar();
+                if (productos.ProductoId == 0)
+                {
+
+                    paso = repositorio.Guardar(productos);
+                    Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+                    Limpiar();
+                }
+                else
+                {
+                    paso = repositorio.Modificar(productos);
+                    Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
+                    Limpiar();
+                }
             }
         }
 

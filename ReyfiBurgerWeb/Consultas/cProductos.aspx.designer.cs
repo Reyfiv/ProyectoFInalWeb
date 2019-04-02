@@ -13,6 +13,15 @@ namespace ReyfiBurgerWeb.Consultas {
     public partial class cProductos {
         
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        
+        /// <summary>
         /// FiltroDropDownList control.
         /// </summary>
         /// <remarks>
@@ -76,12 +85,12 @@ namespace ReyfiBurgerWeb.Consultas {
         protected global::System.Web.UI.WebControls.GridView DatosGridView;
         
         /// <summary>
-        /// ImprimirButton control.
+        /// CombosReportViewer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ImprimirButton;
+        protected global::Microsoft.Reporting.WebForms.ReportViewer CombosReportViewer;
     }
 }

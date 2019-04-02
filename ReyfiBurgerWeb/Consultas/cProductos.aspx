@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#"  MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="cProductos.aspx.cs" Inherits="ReyfiBurgerWeb.Consultas.cProductos" %>
 
 <asp:Content ID="Content7" ContentPlaceHolderID="MainContent" runat="server">
+      <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
      <div class="panel" style = "background-color:#FF9021">
            <div class="panel-heading" style="font-family:Freestyle Script; font-size:25px; color:#ffffff" >Consulta de Productos</div>
      </div>
@@ -59,12 +61,35 @@
                     <HeaderStyle BackColor="#FF9021" Font-Bold="true" ForeColor="White" />
                     <RowStyle BackColor="#EFF3FB" />
             </asp:GridView>
-            <div class="panel">
-                <div class="text-center">
-                    <div class="form-group">
-                        <asp:Button ID="ImprimirButton" runat="server" Text="Imprimir" class="btn btn-warning btn-lg" />
-                    </div>
+       <!--Button--->
+        <div class="panel">
+            <div class="text-center">
+                <div class="form-group" style="display: inline-block">
+                    <button type="button" class="btn btn-warning mt-4" data-toggle="modal" data-target=".bd-example-modal-lg">Imprimir</button>
                 </div>
             </div>
         </div>
+    <%-- El  Modal para el Reporte--%>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" style="max-width: 600px!important; min-width: 600px!important">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLebel">Reporte de Ventas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>
+                   <div class="modal-body">
+                    <%--Viewer--%>
+                    <rsweb:ReportViewer ID="CombosReportViewer" runat="server" ProcessingMode="Remote" Height="542px" Width="549px">
+                        <ServerReport ReportPath="" ReportServerUrl="" />
+                    </rsweb:ReportViewer>
+                  </div>
+                <div class="modal-footer">
+                 </div>
+             </div>
+         </div>
+     </div>
+
+</div>
 </asp:Content>

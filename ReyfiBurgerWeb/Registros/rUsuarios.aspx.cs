@@ -4,6 +4,7 @@ using ReyfiBurgerWeb.Utiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -68,6 +69,23 @@ namespace ReyfiBurgerWeb.Registros
             FechaTextBox.Text = usuarios.Fecha.ToString();
         }
 
+        protected bool ValidarNombres(Usuarios usuarios)
+        {
+            bool validar = false;
+            Expression<Func<Usuarios, bool>> filtro = p => true;
+            RepositorioBase<Usuarios> repositorio = new RepositorioBase<Usuarios>();
+            var lista = repositorio.GetList(c => true);
+            foreach (var item in lista)
+            {
+                if (usuarios.NombreUsuario == item.NombreUsuario)
+                {
+                    Utils.ShowToastr(this.Page, "Usuario ya Existe", "Error", "error");
+                    return validar = true;
+                }
+            }
+            return validar;
+        }
+
         protected void NuevoButton_Click(object sender, EventArgs e)
         {
             Limpiar();
@@ -84,20 +102,27 @@ namespace ReyfiBurgerWeb.Registros
                 Utils.ShowToastr(this.Page, "Revisar todos los campo", "Error", "error");
                 return;
             }
-
             usuario = LlenaClase(usuario);
-            if (usuario.UsuarioId == 0)
+            if (ValidarNombres(usuario))
             {
-
-                paso = repositorio.Guardar(usuario);
-                Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
-                Limpiar();
+                return;
             }
             else
             {
-                paso = repositorio.Modificar(usuario);
-                Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
-                Limpiar();
+
+                if (usuario.UsuarioId == 0)
+                {
+
+                    paso = repositorio.Guardar(usuario);
+                    Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+                    Limpiar();
+                }
+                else
+                {
+                    paso = repositorio.Modificar(usuario);
+                    Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
+                    Limpiar();
+                }
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DAL;
+using Entities;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace BLL
                     combos.Producto.Count();
                     foreach (var item in combos.Producto)
                     {
-                      
+
                     }
                 }
                 _contexto.Dispose();
@@ -31,9 +32,33 @@ namespace BLL
             return combos;
         }
 
+
+        public bool GuardarDetalle(ProductosDetalle producto)
+        {
+            bool paso = false;
+            try
+            {
+                if (_contexto.ProductosDetalle.Add(producto) != null)
+                {
+                    _contexto.SaveChanges();
+                    _contexto.Dispose();
+                    paso = true;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return paso;
+        }
+
+
         public override bool Modificar(Combos combos)
         {
             bool paso = false;
+            bool paso2 = false;
             try
             {
                 //Buscamos la Detalle(Productos) anterior convertiendola en una lista
@@ -48,20 +73,32 @@ namespace BLL
                         _contexto.Entry(item).State = EntityState.Deleted;
                     }
                 }
-                //Modificamos o agregamos las celdas que necesitamos con los nuevos datos 
-                //OJO: No modificar el item directamente despues de cambiarle el estado
-                //porque al dar la segunda vuelta dara un error de que la entidad a sido modicada.
+
                 foreach (var item in combos.Producto)
                 {
-                     _contexto.Entry(item).State = item.ProductosDetalleId == 0 ? EntityState.Added : EntityState.Modified;
+
+                    if (item.ProductosDetalleId == 0)
+                    {
+                        GuardarDetalle(item);
+                    }
+                    else
+                    {
+                        _contexto.Entry(item).State = EntityState.Modified;
+                        if (_contexto.SaveChanges() > 0)
+                        {
+                            paso2 = true;
+                            paso = true;
+                        }
+                    }
                 }
 
-                //Modificamos la entediad completa
-                _contexto.Entry(combos).State = EntityState.Modified;
-                //Guardamos los Cambios 
-                if (_contexto.SaveChanges() > 0)
+                if (paso2 == false)
                 {
-                    paso = true;
+                    if (_contexto.SaveChanges() > 0)
+                    {
+
+                        paso = true;
+                    }
                 }
                 _contexto.Dispose();
             }

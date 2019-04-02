@@ -68,7 +68,7 @@
 
         <form runat=server >
             <asp:TextBox ID="UsuarioTextBox" runat="server" placeholder="Usuario"></asp:TextBox>
-            <asp:TextBox ID="ContraseñaTextBox" runat="server" placeholder="Contraseña"></asp:TextBox>
+            <asp:TextBox ID="ContraseñaTextBox" runat="server" placeholder="Contraseña" type="password"></asp:TextBox>
             <asp:Button ID="LoginButton" style="font-family: Freestyle Script; font-size:50px" runat="server" Text="Log In" OnClick="LoginButton_Click" />
         </form>
        </div>

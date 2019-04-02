@@ -40,7 +40,7 @@
              </div>
                 <%--Precio--%>
              <div class="form-group">
-                   <label for="PrecioTextBox" class="col-md-3 control-label input-sm" style="font-size:medium">Nombre del producto</label>
+                   <label for="PrecioTextBox" class="col-md-3 control-label input-sm" style="font-size:medium">Precio</label>
                    <div class="col-md-6">
                         <asp:TextBox ID="PrecioTextBox" runat="server" class="form-control input-sm" style="font-size:medium" TextMode="Number" placeholder="0.00"></asp:TextBox>
                    </div>

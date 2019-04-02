@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Entities;
+using Microsoft.Reporting.WebForms;
 using ReyfiBurgerWeb.Utiles;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,10 @@ namespace ReyfiBurgerWeb.Consultas
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                MetodoReporte();
+            }
         }
 
         public static List<Usuarios>MetodoBuscar(int index, string criterio, DateTime desde, DateTime hasta)
@@ -61,6 +65,26 @@ namespace ReyfiBurgerWeb.Consultas
 
             DatosGridView.DataSource = MetodoBuscar(index, CriterioTextBox.Text, desde, hasta);
             DatosGridView.DataBind();
+        }
+
+        public static List<Usuarios> Lista(Expression<Func<Usuarios, bool>> Filtro)
+        {
+            Filtro = r => true;
+            RepositorioBase<Usuarios> Repositorio = new RepositorioBase<Usuarios>();
+            List<Usuarios> usuarios = new List<Usuarios>();
+            usuarios = Repositorio.GetList(Filtro);
+            return usuarios;
+        }
+
+        public void MetodoReporte()
+        {
+            Expression<Func<Usuarios, bool>> Filtra = r => true;
+            CombosReportViewer.ProcessingMode = ProcessingMode.Local;
+            CombosReportViewer.Reset();
+            CombosReportViewer.LocalReport.ReportPath = Server.MapPath(@"~\Reportes\Report_Usuarios.rdlc");
+            CombosReportViewer.LocalReport.DataSources.Clear();
+            CombosReportViewer.LocalReport.DataSources.Add(new ReportDataSource("Usuarios", Lista(Filtra)));
+            CombosReportViewer.LocalReport.Refresh();
         }
     }
 }

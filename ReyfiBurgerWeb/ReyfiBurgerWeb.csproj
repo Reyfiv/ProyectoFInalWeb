@@ -109,6 +109,8 @@
     <Content Include="Registros\rUsuarios.aspx" />
     <Content Include="Registros\rVentas.aspx" />
     <Content Include="Resources\Hamburger.png" />
+    <Content Include="Resources\ImgCombos\Combo.png" />
+    <Content Include="Resources\ImgProductos\Producto.png" />
     <Content Include="Resources\Logo.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
@@ -123,9 +125,16 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CombosDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CombosDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Consultas\cCombos.aspx.cs">
       <DependentUpon>cCombos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -171,6 +180,11 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ProductosDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductosDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registros\rCombos.aspx.cs">
       <DependentUpon>rCombos.aspx</DependentUpon>
@@ -214,13 +228,47 @@
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Utiles\Utils.cs" />
+    <Compile Include="VentaDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VentaDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="VentasDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VentasDataSet.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CombosDataSet.xsc">
+      <DependentUpon>CombosDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="CombosDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CombosDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="CombosDataSet.xss">
+      <DependentUpon>CombosDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Site.Master" />
     <Content Include="ReyfiBurgerWebDataSet.xsc">
       <DependentUpon>ReyfiBurgerWebDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="ProductosDataSet.xsc">
+      <DependentUpon>ProductosDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="ProductosDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ProductosDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="ProductosDataSet.xss">
+      <DependentUpon>ProductosDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\ReyfisBurger - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ReyfisBurger - Web Deploy.pubxml" />
     <None Include="ReyfiBurgerWebDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>ReyfiBurgerWebDataSet.Designer.cs</LastGenOutput>
@@ -228,6 +276,28 @@
     </None>
     <Content Include="ReyfiBurgerWebDataSet.xss">
       <DependentUpon>ReyfiBurgerWebDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="VentaDataSet.xsc">
+      <DependentUpon>VentaDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="VentaDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>VentaDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="VentaDataSet.xss">
+      <DependentUpon>VentaDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="VentasDataSet.xsc">
+      <DependentUpon>VentasDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="VentasDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>VentasDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="VentasDataSet.xss">
+      <DependentUpon>VentasDataSet.xsd</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -248,7 +318,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Reportes\Report_Combos.rdlc" />
+    <EmbeddedResource Include="Reportes\Report_Productos.rdlc" />
     <EmbeddedResource Include="Reportes\Report_Usuarios.rdlc" />
+    <Content Include="Reportes\Report_Ventas.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

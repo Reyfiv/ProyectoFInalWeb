@@ -86,6 +86,7 @@
     <asp:PlaceHolder ID="head" runat="server"></asp:PlaceHolder>
 </head>
 <body>
+
     <form id="form1" runat="server">
         <%--Menu Principal--%>
         <nav class="navbar navbar-inverse">

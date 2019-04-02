@@ -14,15 +14,14 @@ namespace ReyfiBurgerWeb.Registros
 {
     public partial class rCombos : System.Web.UI.Page
     {
-        public List<ProductosDetalle> Detalle { get; set; }
-
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 LlenaCombo();
-                ViewState["Modifica"] = new ProductosDetalle();
             }
+
         }
 
         protected void LlenaCombo()
@@ -57,7 +56,6 @@ namespace ReyfiBurgerWeb.Registros
             NombreCombosTextBox.Text = combos.NombreCombo;
             ProductoIdDropDownList.Text = combos.ProductoId.ToString();;
             PrecioTotalTextBox.Text = combos.PrecioTotalCombo.ToString();
-
             ViewState["ProductosDetalle"] = combos.Producto;
             DatosGridView.DataSource = (List<ProductosDetalle>)ViewState["ProductosDetalle"];
             DatosGridView.DataBind();
@@ -76,6 +74,23 @@ namespace ReyfiBurgerWeb.Registros
             return combos;
         }
 
+        protected bool ValidarNombres(Combos combos)
+        {
+            bool validar = false;
+            Expression<Func<Combos, bool>> filtro = p => true;
+            RepositorioBase<Combos> repositorio = new RepositorioBase<Combos>();
+            var lista = repositorio.GetList(c => true);
+            foreach(var item in lista)
+            {
+                if(combos.NombreCombo == item.NombreCombo)
+                {
+                    Utils.ShowToastr(this.Page, "Combo ya Existe", "Error", "error");
+                    return validar = true;
+                }
+            }
+            return validar;
+        }
+
         protected void NuevoButton_Click(object sender, EventArgs e)
         {
             Limpiar();
@@ -92,19 +107,30 @@ namespace ReyfiBurgerWeb.Registros
                 Utils.ShowToastr(this.Page, "Revisar todos los campo", "Error", "error");
                 return;
             }
-
             combos = LlenaClase(combos);
-            if (combos.ComboId == 0)
+            if (ValidarNombres(combos))
             {
-                paso = repositorio.Guardar(combos);
-                Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
-                Limpiar();
+                return;
             }
             else
             {
-                paso = repositorio.Modificar(combos);
-                Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
-                Limpiar();
+                if (combos.ComboId == 0)
+                {
+                    if (combos.Producto.Count > 1)
+                    {
+                        paso = repositorio.Guardar(combos);
+                        Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+                        Limpiar();
+                    }
+                    else
+                        Utils.ShowToastr(this.Page, "Debe agregar mas de un prodructo", "Revisar", "info");
+                }
+                else
+                {
+                    paso = repositorio.Modificar(combos);
+                    Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
+                    Limpiar();
+                }
             }
         }
 
@@ -159,28 +185,6 @@ namespace ReyfiBurgerWeb.Registros
         }
 
 
-        protected void EliminarGridButton_Click(object sender, EventArgs e)
-        {
-            GridViewRow row = DatosGridView.SelectedRow;
-            ((List<ProductosDetalle>)ViewState["ProductosDetalle"]).RemoveAt(row.RowIndex);
-            DatosGridView.DataSource = ViewState["ProductosDetalle"];
-            DatosGridView.DataBind();
-
-            List<ProductosDetalle> detalle = new List<ProductosDetalle>();
-
-            if (DatosGridView.DataSource != null)
-            {
-                detalle = (List<ProductosDetalle>)DatosGridView.DataSource;
-            }
-            decimal Total = 0;
-            foreach (var item in detalle)
-            {
-                Total -= item.Precio;
-            }
-            Total *= (-1);
-            PrecioTotalTextBox.Text = Total.ToString();
-        }
-
         protected void DatosGridView_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             DatosGridView.DataSource = ViewState["ProductosDetalle"];
@@ -190,6 +194,7 @@ namespace ReyfiBurgerWeb.Registros
 
         protected void Eliminar_Click(object sender, EventArgs e)
         {
+
             GridViewRow row = DatosGridView.SelectedRow;
             ((List<ProductosDetalle>)ViewState["ProductosDetalle"]).RemoveAt(row.RowIndex);
             DatosGridView.DataSource = ViewState["ProductosDetalle"];
@@ -207,7 +212,12 @@ namespace ReyfiBurgerWeb.Registros
                 Total -= item.Precio;
             }
             Total *= (-1);
-            PrecioTotalTextBox.Text = Total.ToString();
+            if (DatosGridView.Rows.Count > 0)
+                PrecioTotalTextBox.Text = Total.ToString();
+            if (DatosGridView.Rows.Count == 0)
+                PrecioTotalTextBox.Text = string.Empty;
+           
         }
+
     }
 }
