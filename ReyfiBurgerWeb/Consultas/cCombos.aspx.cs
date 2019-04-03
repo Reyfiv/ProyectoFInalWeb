@@ -16,6 +16,7 @@ namespace ReyfiBurgerWeb.Consultas
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+           
             if (!Page.IsPostBack)
             {
                 MetodoReporte();
@@ -74,12 +75,12 @@ namespace ReyfiBurgerWeb.Consultas
         }
         public void MetodoReporte()
         {
-            Expression<Func<Combos, bool>> Filtra = r => true;
+            Expression<Func<Combos, bool>> filtro = p => true;
             CombosReportViewer.ProcessingMode = ProcessingMode.Local;
             CombosReportViewer.Reset();
             CombosReportViewer.LocalReport.ReportPath = Server.MapPath(@"~\Reportes\Report_Combos.rdlc");
             CombosReportViewer.LocalReport.DataSources.Clear();
-            CombosReportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", ListaCombos(Filtra)));
+            CombosReportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", ListaCombos(filtro)));
             CombosReportViewer.LocalReport.Refresh();
         }
     }

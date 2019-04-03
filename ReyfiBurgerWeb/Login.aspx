@@ -57,9 +57,7 @@
 
 </head>
 <body>
-      <div>
-        <h1 id="Saludo" style=" font-family:Freestyle Script; font-size:150px; color:#FFAA00" class="col-md-6 col-sm-12 col-lg-12">Bienvenidos</h1>
-      </div>
+        
       <div id="login-button">
         <img src="/Resources/Hamburger.png" >
       </div>
@@ -86,7 +84,7 @@
     <style>
         html
         { 
-            background-color:white;
+            background-image: url("/Resources/fondo.jpg");
             background-size: cover;
             overflow: hidden;
         }
@@ -112,8 +110,8 @@
           border-radius: 50%;
           background: #FF9021;
           overflow: hidden;
-          opacity: 0.7;
-          box-shadow: 10px 10px 30px #000;}
+          /*opacity: 0.7;
+          box-shadow: 10px 10px 30px #000*/;}
 
         /* Login container */
         #container{

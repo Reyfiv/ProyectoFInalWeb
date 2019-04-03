@@ -10,7 +10,7 @@
         <div class="form-horizontal col-md-12" role="form">
             <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                 <ContentTemplate>
-                    <div style="text-align:right">
+                    <div style="text-align: right">
                         <asp:Button ID="Carrito" runat="server" CausesValidation="false" Text="Orden" class="btn btn-success btn-md" data-toggle="modal" data-target=".bd-example-modal-lg" />
                     </div>
                 </ContentTemplate>
@@ -18,6 +18,7 @@
                     <asp:AsyncPostBackTrigger ControlID="Carrito" />
                 </Triggers>
             </asp:UpdatePanel>
+            <br />
             <div class="form-group">
                 <div class="col-sm-2" style="margin-left: 200px">
                     <asp:TextBox ID="CriterioTextBox" runat="server" class="form-control input-sm" Style="font-size: medium" PlaceHolder="Productos" TextMode="Search"></asp:TextBox>
@@ -29,7 +30,7 @@
                     <asp:TextBox ID="Criterio2TextBox" runat="server" class="form-control input-sm" Style="font-size: medium" PlaceHolder="Combos" TextMode="Search"></asp:TextBox>
                 </div>
                 <div class="col-sm-1">
-                    <asp:Button ID="Button1" runat="server" Text="Buscar" class="btn btn-info btn-sm" />
+                    <asp:Button ID="BucarButtonCombos" runat="server" Text="Buscar" class="btn btn-info btn-sm" />
                 </div>
                 <br />
                 <br />

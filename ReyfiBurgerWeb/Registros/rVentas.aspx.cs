@@ -22,6 +22,11 @@ namespace ReyfiBurgerWeb.Registros
             }
         }
 
+        protected void LlenaUsuario()
+        {
+
+        }
+
         protected void LimpiaOrden()
         {
             CarritodeProductosGridView.DataSource = null;
@@ -231,5 +236,6 @@ namespace ReyfiBurgerWeb.Registros
             CarritodeCombosGridView.PageIndex = e.NewPageIndex;
             CarritodeCombosGridView.DataBind();
         }
+
     }
 }

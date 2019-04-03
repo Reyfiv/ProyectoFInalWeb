@@ -69,6 +69,14 @@ namespace ReyfiBurgerWeb.Registros
             FechaTextBox.Text = usuarios.Fecha.ToString();
         }
 
+
+        private bool ExisteEnLaBaseDeDatos()
+        {
+            RepositorioBase<Usuarios> repositorio = new RepositorioBase<Usuarios>();
+            Usuarios usuarios = repositorio.Buscar(Utils.ToInt(UsuarioIdTextBox.Text));
+            return (usuarios != null);
+        }
+
         protected bool ValidarNombres(Usuarios usuarios)
         {
             bool validar = false;
@@ -83,6 +91,7 @@ namespace ReyfiBurgerWeb.Registros
                     return validar = true;
                 }
             }
+
             return validar;
         }
 
@@ -113,30 +122,52 @@ namespace ReyfiBurgerWeb.Registros
                 if (usuario.UsuarioId == 0)
                 {
 
-                    paso = repositorio.Guardar(usuario);
-                    Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
-                    Limpiar();
+                    if (Utils.ToInt(UsuarioIdTextBox.Text) > 0)
+                    {
+                        Utils.ShowToastr(this.Page, "UsuarioId debe estar en 0", "Revisar", "error");
+                        return
+                            ;
+                    }
+                    else
+                    {
+                        paso = repositorio.Guardar(usuario);
+                        Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+                        Limpiar();
+                    }
                 }
                 else
                 {
-                    paso = repositorio.Modificar(usuario);
-                    Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
-                    Limpiar();
+                    if (ExisteEnLaBaseDeDatos())
+                    {
+                        paso = repositorio.Modificar(usuario);
+                        Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
+                        Limpiar();
+                    }
+                    else
+                        Utils.ShowToastr(this.Page, "El Producto No Existe", "Error", "error");
                 }
             }
         }
 
         protected void EliminarButton_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(UsuarioIdTextBox.Text);
-            RepositorioBase<Usuarios> repositorio = new RepositorioBase<Usuarios>();
-            if (repositorio.Eliminar(id))
+            if (Utils.ToInt(UsuarioIdTextBox.Text) > 0)
             {
-                Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Eliminado", "info");
+                int id = Convert.ToInt32(UsuarioIdTextBox.Text);
+                RepositorioBase<Usuarios> repositorio = new RepositorioBase<Usuarios>();
+                if (repositorio.Eliminar(id))
+                {
+
+                    Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Eliminado", "info");
+                }
+                else
+                    Utils.ShowToastr(this.Page, "Fallo al Eliminar :(", "Error", "error");
+                Limpiar();
             }
             else
-                Utils.ShowToastr(this.Page, "Fallo al Eliminar :(", "Error", "error");
-            Limpiar();
+            {
+                Utils.ShowToastr(this.Page, "Fallo  el usuario debe existir", "error", "error");
+            }
         }
 
         protected void BuscarButton_Click(object sender, EventArgs e)

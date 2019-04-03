@@ -39,7 +39,8 @@ namespace ReyfiBurgerWeb.Registros
         {
             ProductoIdTextBox.Text = "0";
             NombreProductoTextBox.Text = string.Empty;
-            PrecioTextBox.Text = "0.00";
+            PrecioTextBox.Text = string.Empty;
+           
         }
 
         protected Productos LlenaClase(Productos productos)
@@ -49,6 +50,7 @@ namespace ReyfiBurgerWeb.Registros
             productos.TipoProducto = TipoProductoDropDownList.Text;
             productos.Precio = Utils.ToDecimal(PrecioTextBox.Text);
             productos.Descripcion = DescripcionDropDownList.Text;
+            
             bool resultado = DateTime.TryParse(FechaTextBox.Text, out DateTime fecha);
             if (resultado)
                 productos.Fecha = fecha;
@@ -62,6 +64,7 @@ namespace ReyfiBurgerWeb.Registros
             TipoProductoDropDownList.Text = productos.TipoProducto;
             PrecioTextBox.Text = Convert.ToString(productos.Precio);
             DescripcionDropDownList.Text = productos.Descripcion;
+            
         }
 
         protected bool ValidarNombres(Productos productos)
@@ -78,7 +81,15 @@ namespace ReyfiBurgerWeb.Registros
                     return validar = true;
                 }
             }
+            
             return validar;
+        }
+
+        private bool ExisteEnLaBaseDeDatos()
+        {
+            RepositorioBase<Productos> repositorio = new RepositorioBase<Productos>();
+            Productos productos = repositorio.Buscar(Utils.ToInt(ProductoIdTextBox.Text));
+            return (productos != null);
         }
 
         protected void NuevoButton_Click(object sender, EventArgs e)
@@ -107,30 +118,48 @@ namespace ReyfiBurgerWeb.Registros
                 if (productos.ProductoId == 0)
                 {
 
-                    paso = repositorio.Guardar(productos);
-                    Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
-                    Limpiar();
+                    if (Utils.ToInt(ProductoIdTextBox.Text) > 0)
+                    {
+                        Utils.ShowToastr(this.Page, "ProductoId debe estar en 0", "Revisar", "error");
+                        return;
+                    }
+                    else
+                    {
+                        paso = repositorio.Guardar(productos);
+                        Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+                        Limpiar();
+                    }
                 }
                 else
                 {
-                    paso = repositorio.Modificar(productos);
-                    Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
-                    Limpiar();
+                    if (ExisteEnLaBaseDeDatos())
+                    {
+                        paso = repositorio.Modificar(productos);
+                        Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
+                        Limpiar();
+                    }
+                    else
+                        Utils.ShowToastr(this.Page, "El Producto No Existe", "Error", "error");
                 }
             }
         }
 
         protected void EliminarButton_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(ProductoIdTextBox.Text);
-            RepositorioBase<Productos> repositorio = new RepositorioBase<Productos>();
-            if (repositorio.Eliminar(id))
+            if (Utils.ToInt(ProductoIdTextBox.Text) > 0)
             {
-                Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Eliminado", "info");
+                int id = Convert.ToInt32(ProductoIdTextBox.Text);
+                RepositorioBase<Productos> repositorio = new RepositorioBase<Productos>();
+                if (repositorio.Eliminar(id))
+                {
+                    Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Eliminado", "info");
+                }
+                else
+                    Utils.ShowToastr(this.Page, "Fallo al Eliminar :(", "Error", "error");
+                Limpiar();
             }
             else
-                Utils.ShowToastr(this.Page, "Fallo al Eliminar :(", "Error", "error");
-            Limpiar();
+                Utils.ShowToastr(this.Page, "EL Producto debe existir", "Error", "error");
         }
 
         protected void BuscarButton_Click(object sender, EventArgs e)

@@ -31,6 +31,7 @@ namespace BLL
             bool paso = false;
             if (Listar(filtrar).Count() != 0)
             {
+                
                 paso = true;
             }
             return paso;

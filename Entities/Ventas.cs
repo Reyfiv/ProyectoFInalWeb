@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities
 {
@@ -16,6 +17,7 @@ namespace Entities
 
         public virtual List<VentaProductosDetalle> DetalleProducto { get; set; }
         public virtual List<CombosDetalle> DetalleCombo { get; set; }
+
 
         public Ventas()
         {

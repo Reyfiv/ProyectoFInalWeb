@@ -108,6 +108,7 @@
     <Content Include="Registros\rProductos.aspx" />
     <Content Include="Registros\rUsuarios.aspx" />
     <Content Include="Registros\rVentas.aspx" />
+    <Content Include="Resources\fondo.jpg" />
     <Content Include="Resources\Hamburger.png" />
     <Content Include="Resources\ImgCombos\Combo.png" />
     <Content Include="Resources\ImgProductos\Producto.png" />

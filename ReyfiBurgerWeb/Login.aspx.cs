@@ -16,7 +16,8 @@ namespace ReyfiBurgerWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            String Valor = UsuarioTextBox.Text;
+            
         }
 
         protected void LoginButton_Click(object sender, EventArgs e)
@@ -31,19 +32,6 @@ namespace ReyfiBurgerWeb
                 if (repositorio.Auntenticar(UsuarioTextBox.Text, ContraseñaTextBox.Text))
                 {
                     FormsAuthentication.RedirectFromLoginPage(user.NombreUsuario, true);
-                    if (user.TipoUsuario == "Administrador")
-                    {
-                        Utils.ShowToastr(this.Page, "Bienvenido usuario administrador", "Bienvenido", "success"); 
-                        rVentas abrir = new rVentas();
-                        abrir.Visible = true;
-                    }
-                    else
-                    {
-                        //MessageBox.Show("*Bienvenido usuario cajero*");
-                        //rVentas abrir = new rVentas();
-                        //abrir.Show();
-                        //this.Hide();
-                    }
                 }
                 else
                     Utils.ShowToastr(this.Page, "Usuario o contraseña Incorrecta", "Error", "error");

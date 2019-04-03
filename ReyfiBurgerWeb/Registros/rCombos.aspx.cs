@@ -14,7 +14,7 @@ namespace ReyfiBurgerWeb.Registros
 {
     public partial class rCombos : System.Web.UI.Page
     {
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -54,11 +54,18 @@ namespace ReyfiBurgerWeb.Registros
             Limpiar();
             CombosIdTextBox.Text = combos.ComboId.ToString();
             NombreCombosTextBox.Text = combos.NombreCombo;
-            ProductoIdDropDownList.Text = combos.ProductoId.ToString();;
+            ProductoIdDropDownList.Text = combos.ProductoId.ToString(); ;
             PrecioTotalTextBox.Text = combos.PrecioTotalCombo.ToString();
             ViewState["ProductosDetalle"] = combos.Producto;
             DatosGridView.DataSource = (List<ProductosDetalle>)ViewState["ProductosDetalle"];
             DatosGridView.DataBind();
+        }
+
+        private bool ExisteEnLaBaseDeDatos()
+        {
+            RepositorioBase<Combos> repositorio = new RepositorioBase<Combos>();
+            Combos combos = repositorio.Buscar(Utils.ToInt(CombosIdTextBox.Text));
+            return (combos != null);
         }
 
         protected Combos LlenaClase(Combos combos)
@@ -80,14 +87,15 @@ namespace ReyfiBurgerWeb.Registros
             Expression<Func<Combos, bool>> filtro = p => true;
             RepositorioBase<Combos> repositorio = new RepositorioBase<Combos>();
             var lista = repositorio.GetList(c => true);
-            foreach(var item in lista)
+            foreach (var item in lista)
             {
-                if(combos.NombreCombo == item.NombreCombo)
+                if (combos.NombreCombo == item.NombreCombo)
                 {
                     Utils.ShowToastr(this.Page, "Combo ya Existe", "Error", "error");
                     return validar = true;
                 }
             }
+
             return validar;
         }
 
@@ -118,33 +126,51 @@ namespace ReyfiBurgerWeb.Registros
                 {
                     if (combos.Producto.Count > 1)
                     {
-                        paso = repositorio.Guardar(combos);
-                        Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
-                        Limpiar();
+                        if (Utils.ToInt(CombosIdTextBox.Text) > 0)
+                        {
+                            Utils.ShowToastr(this.Page, "ComboId debe estar en 0", "Revisar", "error");
+                            return;
+                        }
+                        else
+                        {
+                            paso = repositorio.Guardar(combos);
+                            Utils.ShowToastr(this.Page, "Guardado con exito!!", "Guardado", "success");
+                            Limpiar();
+                        }
                     }
                     else
                         Utils.ShowToastr(this.Page, "Debe agregar mas de un prodructo", "Revisar", "info");
                 }
                 else
                 {
-                    paso = repositorio.Modificar(combos);
-                    Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
-                    Limpiar();
+                    if (ExisteEnLaBaseDeDatos())
+                    {
+                        paso = repositorio.Modificar(combos);
+                        Utils.ShowToastr(this.Page, "Modificado con exito!!", "Modificado", "success");
+                        Limpiar();
+                    }
+                    else
+                        Utils.ShowToastr(this.Page, "El Combo No Existe", "Error", "error");
                 }
             }
         }
 
         protected void EliminarButton_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(CombosIdTextBox.Text);
-            DetalleComboRepositorio repositorio = new DetalleComboRepositorio();
-            if (repositorio.Eliminar(id))
+            if (Utils.ToInt(CombosIdTextBox.Text) > 0)
             {
-                Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Eliminado", "info");
+                int id = Convert.ToInt32(CombosIdTextBox.Text);
+                DetalleComboRepositorio repositorio = new DetalleComboRepositorio();
+                if (repositorio.Eliminar(id))
+                {
+                    Utils.ShowToastr(this.Page, "Eliminado con exito!!", "Eliminado", "info");
+                }
+                else
+                    Utils.ShowToastr(this.Page, "Fallo al Eliminar :(", "Error", "error");
+                Limpiar();
             }
             else
-                Utils.ShowToastr(this.Page, "Fallo al Eliminar :(", "Error", "error");
-            Limpiar();
+                Utils.ShowToastr(this.Page, "El Combo debe Existir", "Error", "error");
         }
 
         protected void BuscarButton_Click(object sender, EventArgs e)
@@ -216,7 +242,7 @@ namespace ReyfiBurgerWeb.Registros
                 PrecioTotalTextBox.Text = Total.ToString();
             if (DatosGridView.Rows.Count == 0)
                 PrecioTotalTextBox.Text = string.Empty;
-           
+
         }
 
     }

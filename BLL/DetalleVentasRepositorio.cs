@@ -10,34 +10,34 @@ namespace BLL
 {
     public class DetalleVentasRepositorio : RepositorioBase<Ventas>
     {
-        public override Ventas Buscar(int id)
+        public override bool Guardar(Ventas ventas)
         {
-            Ventas ventas = new Ventas();
+            bool paso = false;
+            decimal monto = 0;
+            _contexto = new DAL.Contexto();
             try
             {
-                ventas = _contexto.Ventas.Find(id);
-                if (ventas != null)
-                {
-                    ventas.DetalleProducto.Count();
-                    foreach (var item in ventas.DetalleProducto)
-                    {
+                //foreach (var item in ventas.DetalleProducto)
+                //{
+                //    monto += item.Precio;
+                //}
+                //_contexto.Usuarios.Find(ventas.UsuarioId).TotalVendido += monto;
+                //foreach (var item in ventas.DetalleCombo)
+                //{
+                //    monto += item.PrecioTotalCombo;
+                //}
+                //_contexto.Usuarios.Find(ventas.UsuarioId).TotalVendido += monto;
+                //_contexto.Ventas.Add(ventas);
 
-                    }
-                    ventas.DetalleCombo.Count();
-                    foreach (var item in ventas.DetalleCombo)
-                    {
-
-                    }
-                }
-                _contexto.Dispose();
+                //if (_contexto.SaveChanges() > 0)
+                //    paso = true;
 
             }
             catch (Exception)
             {
-
                 throw;
             }
-            return ventas;
+            return paso;
         }
 
     }
